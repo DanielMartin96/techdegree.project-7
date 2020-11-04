@@ -20,69 +20,36 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.performCatSearch();
-    this.performDogSearch();
-    this.performComputerSearch();
+    this.performSearch();
+    this.performSearch("cat");
+    this.performSearch("dog");
+    this.performSearch("computer");
   }
 
-  performCatSearch(query = "cat") {
+  performSearch(query) {
     const api = apiKey;
     axios
       .get(
         `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api}&tags=${query}&per_page=24&format=json&nojsoncallback=1`
       )
       .then((response) => {
-        this.setState({
-          catPics: response.data.photos.photo,
-        });
-      })
-      .catch((error) => {
-        console.log("Error fetching and parsing data", error);
-      });
-  }
-
-  performDogSearch(query = "dog") {
-    const api = apiKey;
-    axios
-      .get(
-        `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api}&tags=${query}&per_page=24&format=json&nojsoncallback=1`
-      )
-      .then((response) => {
-        this.setState({
-          dogPics: response.data.photos.photo,
-        });
-      })
-      .catch((error) => {
-        console.log("Error fetching and parsing data", error);
-      });
-  }
-
-  performComputerSearch(query = "computer") {
-    const api = apiKey;
-    axios
-      .get(
-        `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api}&tags=${query}&per_page=24&format=json&nojsoncallback=1`
-      )
-      .then((response) => {
-        this.setState({
-          computerPics: response.data.photos.photo,
-        });
-      })
-      .catch((error) => {
-        console.log("Error fetching and parsing data", error);
-      });
-  }
-
-  performInputSearch(delta) {
-    const api = apiKey;
-    axios
-      .get(
-        `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api}&tags=${delta}&per_page=24&format=json&nojsoncallback=1`
-      )
-      .then((response) => {
-        this.setState({
-          inputPics: response.data.photos.photo,
-        });
+        if (query === "cat") {
+          this.setState({
+            catPics: response.data.photos.photo,
+          });
+        } else if (query === "dog") {
+          this.setState({
+            dogPics: response.data.photos.photo,
+          });
+        } else if (query === "computer") {
+          this.setState({
+            computerPics: response.data.photos.photo,
+          });
+        } else {
+          this.setState({
+            inputPics: response.data.photos.photo,
+          });
+        }
       })
       .catch((error) => {
         console.log("Error fetching and parsing data", error);
@@ -93,7 +60,7 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <Form search={this.performInputSearch} />
+          <Form peformSearch={() => this.peformSearch()} />
           <Nav />
 
           <Route
@@ -110,7 +77,7 @@ export default class App extends Component {
           />
 
           <Route
-            path={"search"}
+            path={"search/:query"}
             render={() => <PhotoContainer pics={this.state.inputPics} />}
           />
         </div>
