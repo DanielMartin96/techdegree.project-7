@@ -20,7 +20,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.performSearch();
     this.performSearch("cat");
     this.performSearch("dog");
     this.performSearch("computer");
@@ -77,7 +76,7 @@ export default class App extends Component {
           />
 
           <Route
-            path={"search/:query"}
+            path={"/:query"}
             render={() => <PhotoContainer pics={this.state.inputPics} />}
           />
         </div>
