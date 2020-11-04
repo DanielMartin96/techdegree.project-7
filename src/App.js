@@ -26,7 +26,7 @@ export default class App extends Component {
     this.performSearch("computer");
   }
 
-  performSearch(query) {
+  performSearch = (query) => {
     const api = apiKey;
     axios
       .get(
@@ -49,18 +49,19 @@ export default class App extends Component {
           this.setState({
             inputPics: response.data.photos.photo,
           });
+          console.log(this.state.inputPics);
         }
       })
       .catch((error) => {
         console.log("Error fetching and parsing data", error);
       });
-  }
+  };
 
   render() {
     return (
       <BrowserRouter>
         <div className="container">
-          <Form peformSearch={() => this.peformSearch()} />
+          <Form performSearch={this.performSearch} />
           <Nav />
 
           <Route
