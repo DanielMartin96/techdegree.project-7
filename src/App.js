@@ -49,7 +49,6 @@ export default class App extends Component {
           this.setState({
             inputPics: response.data.photos.photo,
           });
-          console.log(this.state.inputPics);
         }
       })
       .catch((error) => {
